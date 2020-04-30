@@ -9,9 +9,9 @@
 class MessageBufferQueue;
 
 /*
- * »º³åÇø
- * ¹Ì¶¨³¤¶È£¬Ö§³ÖÒ»Ğ´¶à¶Á¡£
- * µ±»º³åÇø´¦ÓÚWriteOpen×´Ì¬Ê±£¬Writer»á³ÖĞøĞ´ÈëÊı¾İ£»·ñÔò£¬±íÊ¾»º³åÇø¹Ø±Õ£¬Writer²»ÔÙĞ´ÈëÊı¾İ¡£
+ * ç¼“å†²åŒº
+ * å›ºå®šé•¿åº¦ï¼Œæ”¯æŒä¸€å†™å¤šè¯»ã€‚
+ * å½“ç¼“å†²åŒºå¤„äºWriteOpençŠ¶æ€æ—¶ï¼ŒWriterä¼šæŒç»­å†™å…¥æ•°æ®ï¼›å¦åˆ™ï¼Œè¡¨ç¤ºç¼“å†²åŒºå…³é—­ï¼ŒWriterä¸å†å†™å…¥æ•°æ®ã€‚
  */
 class MessageBuffer {
 public:
@@ -34,7 +34,7 @@ public:
     return is_open_;
   }
 
-  // ¶ÁÊı¾İ£¬ÊäÈëÒÑÏû·Ñ×Ö½ÚÊı£¬·µ»Ø¿É×Ö½ÚÊıºÍÊı¾İÖ¸Õë
+  // è¯»æ•°æ®ï¼Œè¾“å…¥å·²æ¶ˆè´¹å­—èŠ‚æ•°ï¼Œè¿”å›å¯å­—èŠ‚æ•°å’Œæ•°æ®æŒ‡é’ˆ
   const char *read(size_t consumedBytes, size_t &readableBytes) {
     size_t size = size_.load(std::memory_order_acquire);
     if (consumedBytes < size) {
@@ -57,7 +57,7 @@ protected:
         size_.store(size + n, std::memory_order_release);
         return true;
       }
-      is_open_ = false;  // ÒÑĞ´Âú£¬¹Ø±ÕĞ´
+      is_open_ = false;  // å·²å†™æ»¡ï¼Œå…³é—­å†™
     }
     return false;
   }
@@ -81,23 +81,23 @@ private:
 };
 
 /*
- * »º³åÇø¶ÓÁĞ
+ * ç¼“å†²åŒºé˜Ÿåˆ—
  *
- * Éú²úÕß´´½¨Ò»¸öMessageBuffer£¬°ÑËüµ½·ÅÈë¶ÓÎ²£¬È»ºó³ÖĞøĞ´Õâ¸ö»º³åÇø£¬Ö±µ½Ğ´Âú²¢¹Ø±Õ»º³åÇø¡£È»ºó£¬ÔÙÏò¶Ó
- * Î²·ÅÖÃĞÂµÄMessageBufer£¬¼ÌĞøĞ´Êı¾İ£¬ÒÀ´ÎÍù¸´¡£
+ * ç”Ÿäº§è€…åˆ›å»ºä¸€ä¸ªMessageBufferï¼ŒæŠŠå®ƒåˆ°æ”¾å…¥é˜Ÿå°¾ï¼Œç„¶åæŒç»­å†™è¿™ä¸ªç¼“å†²åŒºï¼Œç›´åˆ°å†™æ»¡å¹¶å…³é—­ç¼“å†²åŒºã€‚ç„¶åï¼Œå†å‘é˜Ÿ
+ * å°¾æ”¾ç½®æ–°çš„MessageBuferï¼Œç»§ç»­å†™æ•°æ®ï¼Œä¾æ¬¡å¾€å¤ã€‚
  * 
- * ¶ÓÁĞÀïµÄËùÓĞMessageBuffer¶ÔÏû·ÑÕß¶¼ÊÇ¿É¼ûµÄ£¬ËùÒÔ£¬¿ÉÄÜ»á³öÏÖÉú²úÕßºÍÏû·ÑÕßÍ¬Ê±²Ù×÷Ò»¸öMessageBuffer
- * µÄÇé¿ö£¬ÔÚÕâÀïÊÇÕı³£µÄCase¡£MessageBuffer±»Éè¼ÆÎªÖ§³Ö²¢·¢¶ÁĞ´(Ò»¸öÉú²úÕß£¬¶à¸öÏû·ÑÕß)¡£
+ * é˜Ÿåˆ—é‡Œçš„æ‰€æœ‰MessageBufferå¯¹æ¶ˆè´¹è€…éƒ½æ˜¯å¯è§çš„ï¼Œæ‰€ä»¥ï¼Œå¯èƒ½ä¼šå‡ºç°ç”Ÿäº§è€…å’Œæ¶ˆè´¹è€…åŒæ—¶æ“ä½œä¸€ä¸ªMessageBuffer
+ * çš„æƒ…å†µï¼Œåœ¨è¿™é‡Œæ˜¯æ­£å¸¸çš„Caseã€‚MessageBufferè¢«è®¾è®¡ä¸ºæ”¯æŒå¹¶å‘è¯»å†™(ä¸€ä¸ªç”Ÿäº§è€…ï¼Œå¤šä¸ªæ¶ˆè´¹è€…)ã€‚
  * 
- * Í¨¹ıqueue_minºÍqueue_maxÀ´¿ØÖÆ¶ÓÁĞµÄ´óĞ¡£¬ÊµÏÖMessageBuffer¸´ÓÃ£¬ºÍ¶ÓÁĞ³ÖĞøĞÔµÄÆ½ºâ¡£
- * µ±ĞèÒªÒ»¸öĞÂµÄMessageBufferÊ±£¬
- *  - Èç¹û¶ÓÁĞsize<queue_min£¬Ôò´´½¨ĞÂµÄMessageBuffer
- *  - Èç¹û¶ÓÁĞsize>queue_min£¬Ôò¼ì²é¶ÓÁĞÍ·²¿µÄMessageBuffer
- *    Èç¹ûÃ»ÓĞÏû·ÑÕßÔÚÊ¹ÓÃ£¬Ôò°ÑËü³ö¶Ó²¢¸´ÓÃ£»Èç¹ûÕıÔÚ±»Ïû·ÑÕßÊ¹ÓÃ£¬Ôò´´½¨ĞÂµÄMessageBuffer
- * µ±¶ÓÁĞsize=queue_maxÊ±£¬²»ÔÙ´´½¨ĞÂµÄMessageBuffer¡£Ò²¾ÍÊÇËµ£¬Èç¹ûÏû·ÑÕß¶ÁµÄËÙ¶ÈÌ«Âı£¬µÚÒ»¸ö
- * MessageBufferµÄÊı¾İ»¹Ã»ÓĞ¶ÁÍê£¬ÄÇÃ´¾ÍÎŞ·¨ÔÙĞ´ÈëĞÂÊı¾İ¡£
- * ¼ÙÈç£¬buffer_size=16M£¬queue_min=4£¬queue_max=8£¬Ôò¶ÓÁĞ±£Ö¤±£Áô×î½ü4*16M=64MµÄÊı¾İ£¬×î¶à¿ÉÈİÄÉ
- * 8*16M=128MµÄÊı¾İ¡£
+ * é€šè¿‡queue_minå’Œqueue_maxæ¥æ§åˆ¶é˜Ÿåˆ—çš„å¤§å°ï¼Œå®ç°MessageBufferå¤ç”¨ï¼Œå’Œé˜Ÿåˆ—æŒç»­æ€§çš„å¹³è¡¡ã€‚
+ * å½“éœ€è¦ä¸€ä¸ªæ–°çš„MessageBufferæ—¶ï¼Œ
+ *  - å¦‚æœé˜Ÿåˆ—size<queue_minï¼Œåˆ™åˆ›å»ºæ–°çš„MessageBuffer
+ *  - å¦‚æœé˜Ÿåˆ—size>queue_minï¼Œåˆ™æ£€æŸ¥é˜Ÿåˆ—å¤´éƒ¨çš„MessageBuffer
+ *    å¦‚æœæ²¡æœ‰æ¶ˆè´¹è€…åœ¨ä½¿ç”¨ï¼Œåˆ™æŠŠå®ƒå‡ºé˜Ÿå¹¶å¤ç”¨ï¼›å¦‚æœæ­£åœ¨è¢«æ¶ˆè´¹è€…ä½¿ç”¨ï¼Œåˆ™åˆ›å»ºæ–°çš„MessageBuffer
+ * å½“é˜Ÿåˆ—size=queue_maxæ—¶ï¼Œä¸å†åˆ›å»ºæ–°çš„MessageBufferã€‚ä¹Ÿå°±æ˜¯è¯´ï¼Œå¦‚æœæ¶ˆè´¹è€…è¯»çš„é€Ÿåº¦å¤ªæ…¢ï¼Œç¬¬ä¸€ä¸ª
+ * MessageBufferçš„æ•°æ®è¿˜æ²¡æœ‰è¯»å®Œï¼Œé‚£ä¹ˆå°±æ— æ³•å†å†™å…¥æ–°æ•°æ®ã€‚
+ * å‡å¦‚ï¼Œbuffer_size=16Mï¼Œqueue_min=4ï¼Œqueue_max=8ï¼Œåˆ™é˜Ÿåˆ—ä¿è¯ä¿ç•™æœ€è¿‘4*16M=64Mçš„æ•°æ®ï¼Œæœ€å¤šå¯å®¹çº³
+ * 8*16M=128Mçš„æ•°æ®ã€‚
  */
 class MessageBufferQueue {
 public:
@@ -132,11 +132,11 @@ public:
 
   bool publish(const char *data, size_t len)
   {
-    if (len > buffer_size_)  // ÏûÏ¢³¤¶È²»ÄÜ³¬¹ı»º³åÇøµÄ´óĞ¡
+    if (len > buffer_size_)  // æ¶ˆæ¯é•¿åº¦ä¸èƒ½è¶…è¿‡ç¼“å†²åŒºçš„å¤§å°
       return false;
-    if (current_buffer_ && current_buffer_->write(data, len))  // Èç¹ûµ±Ç°»º´æÇø¿Õ¼ä×ã¹»£¬Ğ´Èë
+    if (current_buffer_ && current_buffer_->write(data, len))  // å¦‚æœå½“å‰ç¼“å­˜åŒºç©ºé—´è¶³å¤Ÿï¼Œå†™å…¥
       return true;
-    if (changeCurrentBuffer())  // Èç¹ûµ±Ç°¿Õ¼ä²»×ã£¬¸ü»»»º³åÇø
+    if (changeCurrentBuffer())  // å¦‚æœå½“å‰ç©ºé—´ä¸è¶³ï¼Œæ›´æ¢ç¼“å†²åŒº
       return current_buffer_->write(data, len);
     return false;
   }
@@ -147,19 +147,19 @@ private:
     int64_t last_id = current_buffer_->id();
     current_buffer_->close();
     current_buffer_.reset();
-    if (queue_.size() > queue_min_) {  // ²éÕÒ¿ÕÏĞ»º³åÇø          
+    if (queue_.size() > queue_min_) {  // æŸ¥æ‰¾ç©ºé—²ç¼“å†²åŒº          
       std::unique_lock<std::mutex> lck(mtx_);
       if (queue_.front().unique()) {
         current_buffer_ = queue_.front();
         queue_.pop_front();
       }
     }
-    if (current_buffer_ == nullptr) {  // ´´½¨ĞÂ»º³åÇø
+    if (current_buffer_ == nullptr) {  // åˆ›å»ºæ–°ç¼“å†²åŒº
       if (queue_.size() < queue_max_) {
         current_buffer_.reset(new MessageBuffer(buffer_size_));
       }
     }
-    if (current_buffer_) {  // ³õÊ¼»¯»º³åÇø£¬¼ÓÈëµ½¶ÓÁĞÄ©Î²
+    if (current_buffer_) {  // åˆå§‹åŒ–ç¼“å†²åŒºï¼ŒåŠ å…¥åˆ°é˜Ÿåˆ—æœ«å°¾
       current_buffer_->reopen(last_id + 1);
       std::unique_lock<std::mutex> lck(mtx_);      
       queue_.push_back(current_buffer_);

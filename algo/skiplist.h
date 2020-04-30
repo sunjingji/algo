@@ -9,23 +9,23 @@
 #include <queue>
 
 /*
- * »ùÓÚÌø±íÊµÏÖµÄÓĞĞò¼¯
+ * åŸºäºè·³è¡¨å®ç°çš„æœ‰åºé›†
  *
- * Ó¦ÓÃ°¸Àı£º
- *   ¼ÙÉèÁÔÆ¸ÍøÓĞ10ÍòÃûÁÔÍ·£¬Ã¿¸öÁÔÍ·¶¼¿ÉÒÔÍ¨¹ı×öÈÎÎñ(±ÈÈç·¢²¼Ö°Î»)À´»ıÀÛ»ı·Ö£¬È»ºóÍ¨¹ı»ı·ÖÀ´ÏÂÔØ¼òÀú¡£
- *   ¼ÙÉèÄãÊÇÁÔÆ¸ÍøµÄÒ»Ãû¹¤³ÌÊ¦£¬ÈçºÎÔÚÄÚ´æÖĞ´æ´¢Õâ10Íò¸öÁÔÍ·IDºÍ»ı·ÖĞÅÏ¢£¬ÈÃËüÄÜ¹»Ö§³ÖÕâÑù¼¸¸ö²Ù×÷£º
- *     1)¸ù¾İÁÔÍ·µÄ ID ¿ìËÙ²éÕÒ¡¢É¾³ı¡¢¸üĞÂÕâ¸öÁÔÍ·µÄ»ı·ÖĞÅÏ¢£»
- *     2)²éÕÒ»ı·ÖÔÚÄ³¸öÇø¼äµÄÁÔÍ· ID ÁĞ±í£»
- *     3)²éÕÒ°´ÕÕ»ı·Ö´ÓĞ¡µ½´óÅÅÃûÔÚµÚ x Î»µ½µÚ y Î»Ö®¼äµÄÁÔÍ· ID ÁĞ±í¡£
+ * åº”ç”¨æ¡ˆä¾‹ï¼š
+ *   å‡è®¾çŒè˜ç½‘æœ‰10ä¸‡åçŒå¤´ï¼Œæ¯ä¸ªçŒå¤´éƒ½å¯ä»¥é€šè¿‡åšä»»åŠ¡(æ¯”å¦‚å‘å¸ƒèŒä½)æ¥ç§¯ç´¯ç§¯åˆ†ï¼Œç„¶åé€šè¿‡ç§¯åˆ†æ¥ä¸‹è½½ç®€å†ã€‚
+ *   å‡è®¾ä½ æ˜¯çŒè˜ç½‘çš„ä¸€åå·¥ç¨‹å¸ˆï¼Œå¦‚ä½•åœ¨å†…å­˜ä¸­å­˜å‚¨è¿™10ä¸‡ä¸ªçŒå¤´IDå’Œç§¯åˆ†ä¿¡æ¯ï¼Œè®©å®ƒèƒ½å¤Ÿæ”¯æŒè¿™æ ·å‡ ä¸ªæ“ä½œï¼š
+ *     1)æ ¹æ®çŒå¤´çš„ ID å¿«é€ŸæŸ¥æ‰¾ã€åˆ é™¤ã€æ›´æ–°è¿™ä¸ªçŒå¤´çš„ç§¯åˆ†ä¿¡æ¯ï¼›
+ *     2)æŸ¥æ‰¾ç§¯åˆ†åœ¨æŸä¸ªåŒºé—´çš„çŒå¤´ ID åˆ—è¡¨ï¼›
+ *     3)æŸ¥æ‰¾æŒ‰ç…§ç§¯åˆ†ä»å°åˆ°å¤§æ’ååœ¨ç¬¬ x ä½åˆ°ç¬¬ y ä½ä¹‹é—´çš„çŒå¤´ ID åˆ—è¡¨ã€‚
  */
 namespace skiplist {
 
   class SortedSet {
   public:
-    // ÓĞĞò¼¯³ÉÔ±
+    // æœ‰åºé›†æˆå‘˜
     typedef std::tuple<std::string, double> Member;
 
-    // Òì³£
+    // å¼‚å¸¸
     struct MemberNotExists {};
     struct NotAllowedKey {};
 
@@ -53,12 +53,12 @@ namespace skiplist {
       }
     }
 
-    // ²åÈë»ò¸üĞÂmemberÔªËØ£¬·µ»Ø²åÈëµÄÔªËØÊıÁ¿
+    // æ’å…¥æˆ–æ›´æ–°memberå…ƒç´ ï¼Œè¿”å›æ’å…¥çš„å…ƒç´ æ•°é‡
     int add(const std::string &member, double score)
     {
       auto *node = findMember(member);
 
-      // ¸üĞÂ
+      // æ›´æ–°
       if (node) {
         if (score != node->score) {
           skListRem(node);
@@ -68,7 +68,7 @@ namespace skiplist {
         return 0;
       }
 
-      // ²åÈë
+      // æ’å…¥
       int newLevel = randomLevel();
       node = new SkListNode(newLevel, member, score);
       dict_[member] = node;
@@ -76,7 +76,7 @@ namespace skiplist {
       return 1;
     }
 
-    // ·µ»ØÓĞĞò¼¯ÖĞ£¬³ÉÔ±memberµÄscoreÖµ
+    // è¿”å›æœ‰åºé›†ä¸­ï¼Œæˆå‘˜memberçš„scoreå€¼
     double score(const std::string &member)
     {
       auto *node = findMember(member);
@@ -85,7 +85,7 @@ namespace skiplist {
       return node->score;
     }
 
-    // ÎªÓĞĞò¼¯µÄ³ÉÔ±memberµÄscoreÖµ¼ÓÉÏÔöÁ¿increment£¬·µ»Ømember³ÉÔ±µÄĞÂscoreÖµ
+    // ä¸ºæœ‰åºé›†çš„æˆå‘˜memberçš„scoreå€¼åŠ ä¸Šå¢é‡incrementï¼Œè¿”å›memberæˆå‘˜çš„æ–°scoreå€¼
     double incrBy(const std::string &member, double increment)
     {
       auto *node = findMember(member);
@@ -99,19 +99,19 @@ namespace skiplist {
       return node->score;
     }
 
-    // ·µ»ØÓĞĞò¼¯µÄ»ùÊı
+    // è¿”å›æœ‰åºé›†çš„åŸºæ•°
     int card()
     {
       return dict_.size();
     }
 
-    // ·µ»ØÓĞĞò¼¯ÖĞ£¬scoreÖµÔÚminºÍmaxÖ®¼ä(°üÀ¨scoreÖµµÈÓÚmin»òmax)µÄ³ÉÔ±µÄÊıÁ¿
+    // è¿”å›æœ‰åºé›†ä¸­ï¼Œscoreå€¼åœ¨minå’Œmaxä¹‹é—´(åŒ…æ‹¬scoreå€¼ç­‰äºminæˆ–max)çš„æˆå‘˜çš„æ•°é‡
     int count(double min, double max)
     {
       return 0;
     }
 
-    // ·µ»ØÓĞĞò¼¯ÖĞ£¬Ö¸¶¨Çø¼äÄÚµÄ³ÉÔ±
+    // è¿”å›æœ‰åºé›†ä¸­ï¼ŒæŒ‡å®šåŒºé—´å†…çš„æˆå‘˜
     std::vector<Member> range(int start, int stop)
     {
       if (start < 0)
@@ -123,7 +123,7 @@ namespace skiplist {
         return {};
 
       SkListNode *it = header_;
-      int range = -1;  // ½ØÖ¹µ±Ç°ÔªËØitµÄÅÅÃû£¬´Ó0¿ªÊ¼£¬-1ÎªheaderÕ¼Î»
+      int range = -1;  // æˆªæ­¢å½“å‰å…ƒç´ itçš„æ’åï¼Œä»0å¼€å§‹ï¼Œ-1ä¸ºheaderå ä½
       for (int i = level_ - 1; i >= 0; --i) {
         while (true) {
           auto *next = it->levels[i].forward;
@@ -134,12 +134,12 @@ namespace skiplist {
             break;
           it = next;
           range = next_range;
-          if (next_range == start)  // ÅÅÃû²»»áÖØ¸´£¬²éÕÒ½áÊø
+          if (next_range == start)  // æ’åä¸ä¼šé‡å¤ï¼ŒæŸ¥æ‰¾ç»“æŸ
             goto lable_found;
         }
       }
 
-      if (it == header_)  // ÓĞĞò¼¯Îª¿ÕÊ±£¬itÖ¸Ïòheader_
+      if (it == header_)  // æœ‰åºé›†ä¸ºç©ºæ—¶ï¼ŒitæŒ‡å‘header_
         header_ = header_->levels[0].forward;
 
       while (range < start && it != tail_) {
@@ -157,7 +157,7 @@ namespace skiplist {
       return members;
     }
 
-    // ·µ»ØÓĞĞò¼¯ÖĞ£¬Ö¸¶¨Çø¼äÄÚµÄ³ÉÔ±£¬·´ÏòÅÅĞò
+    // è¿”å›æœ‰åºé›†ä¸­ï¼ŒæŒ‡å®šåŒºé—´å†…çš„æˆå‘˜ï¼Œåå‘æ’åº
     std::vector<Member> revRange(int start, int stop)
     {
       auto members = range(stop, start);
@@ -165,20 +165,20 @@ namespace skiplist {
       return members;
     }
 
-    // ·µ»ØÓĞĞò¼¯ÖĞ£¬scoreÖµ½éÓÚminºÍmaxÖ®¼ä(°üÀ¨µÈÓÚmin»òmax)µÄ³ÉÔ±
+    // è¿”å›æœ‰åºé›†ä¸­ï¼Œscoreå€¼ä»‹äºminå’Œmaxä¹‹é—´(åŒ…æ‹¬ç­‰äºminæˆ–max)çš„æˆå‘˜
     std::vector<Member> rangeByScore(double min, double max)
     {
       SkListNode *it = header_;
       for (int i = level_ - 1; i >= 0; --i) {
         while (true) {
           auto *next = it->levels[i].forward;
-          if (next == tail_ || next->score >= min)  // scoreÔÊĞíÓĞÖØ¸´Öµ£¬±ÜÃâÒÅÂ©
+          if (next == tail_ || next->score >= min)  // scoreå…è®¸æœ‰é‡å¤å€¼ï¼Œé¿å…é—æ¼
             break;
           it = next;
         }
       }
 
-      if (it == header_)  // minÎª-DBF_MAX£¬»òÓĞĞò¼¯Îª¿ÕÊ±, itÖ¸Ïòheader
+      if (it == header_)  // minä¸º-DBF_MAXï¼Œæˆ–æœ‰åºé›†ä¸ºç©ºæ—¶, itæŒ‡å‘header
         header_ = header_->levels[0].forward;
 
       while (it->score < min && it != tail_) {
@@ -194,7 +194,7 @@ namespace skiplist {
       return members;
     }
 
-    // ·µ»ØÓĞĞò¼¯ÖĞ£¬scoreÖµ½éÓÚmaxºÍminÖ®¼ä(°üÀ¨µÈÓÚmax»òmin)µÄËùÓĞµÄ³ÉÔ±£¬·´ÏòÅÅĞò
+    // è¿”å›æœ‰åºé›†ä¸­ï¼Œscoreå€¼ä»‹äºmaxå’Œminä¹‹é—´(åŒ…æ‹¬ç­‰äºmaxæˆ–min)çš„æ‰€æœ‰çš„æˆå‘˜ï¼Œåå‘æ’åº
     std::vector<Member> revRangeByScore(double max, double min)
     {
       auto members = rangeByScore(min, max);
@@ -202,19 +202,19 @@ namespace skiplist {
       return members;
     }
 
-    // ·µ»Ø³ÉÔ±µÄÅÅÃû
+    // è¿”å›æˆå‘˜çš„æ’å
     int rank(const std::string &member)
     {
       return {};
     }
 
-    // ·µ»Ø³ÉÔ±µÄ·´ÏòÅÅÃû
+    // è¿”å›æˆå‘˜çš„åå‘æ’å
     int revRank(const std::string &member)
     {
       return 0;
     }
 
-    // ÒÆ³ı³ÉÔ±, ·µ»ØÒÆ³ıµÄ³ÉÔ±µÄÊıÁ¿
+    // ç§»é™¤æˆå‘˜, è¿”å›ç§»é™¤çš„æˆå‘˜çš„æ•°é‡
     int rem(const std::string &member)
     {
       auto *node = findMember(member);
@@ -227,19 +227,19 @@ namespace skiplist {
       return 1;
     }
 
-    // ÒÆ³ıÓĞĞò¼¯ÖĞ£¬Ö¸¶¨ÅÅÃû(rank)Çø¼äÄÚµÄËùÓĞ³ÉÔ±£¬·µ»Ø±»ÒÆ³ı³ÉÔ±µÄÊıÁ¿
+    // ç§»é™¤æœ‰åºé›†ä¸­ï¼ŒæŒ‡å®šæ’å(rank)åŒºé—´å†…çš„æ‰€æœ‰æˆå‘˜ï¼Œè¿”å›è¢«ç§»é™¤æˆå‘˜çš„æ•°é‡
     int remRangeByRank(int start, int stop)
     {
       return 0;
     }
 
-    // ÒÆ³ıÓĞĞò¼¯ÖĞ£¬ËùÓĞscoreÖµ½éÓÚminºÍmaxÖ®¼ä(°üÀ¨µÈÓÚmin»òmax)µÄ³ÉÔ±£¬·µ»Ø±»ÒÆ³ı³ÉÔ±µÄÊıÁ¿
+    // ç§»é™¤æœ‰åºé›†ä¸­ï¼Œæ‰€æœ‰scoreå€¼ä»‹äºminå’Œmaxä¹‹é—´(åŒ…æ‹¬ç­‰äºminæˆ–max)çš„æˆå‘˜ï¼Œè¿”å›è¢«ç§»é™¤æˆå‘˜çš„æ•°é‡
     int remRangeByScore(double min, double max)
     {
       return 0;
     }
 
-    // ±éÀúÓĞĞò¼¯, ´ÓÍ·¿ªÊ¼£¬»Øµ÷º¯Êı·µ»ØÖµ<0Ê±ÖÕÖ¹
+    // éå†æœ‰åºé›†, ä»å¤´å¼€å§‹ï¼Œå›è°ƒå‡½æ•°è¿”å›å€¼<0æ—¶ç»ˆæ­¢
     typedef std::function<int(const std::string &member, double score)> ScanCb;
     void scan(const ScanCb &cb)
     {
@@ -251,7 +251,7 @@ namespace skiplist {
       }
     }
 
-    // Êä³öµ÷ÊÔĞÅÏ¢
+    // è¾“å‡ºè°ƒè¯•ä¿¡æ¯
     void debug() {
       for (int i = level_ - 1; i >= 0; --i) {
         printf("level[%d] ", i + 1);
@@ -265,10 +265,10 @@ namespace skiplist {
     }
 
   private:
-    // Ìø±íµÄ×î¸ß²ã¼¶
+    // è·³è¡¨çš„æœ€é«˜å±‚çº§
     const int kSkListMaxLevel = 32;
 
-    // ¿ØÖÆ½¨Á¢Ë÷ÒıºÍË÷Òı²ãÊıµÄ¸ÅÂÊ£¬µ÷´ó¸ÃÖµ»á´´½¨¸ü¶à¸ü¶à²ã¼¶µÄË÷Òı
+    // æ§åˆ¶å»ºç«‹ç´¢å¼•å’Œç´¢å¼•å±‚æ•°çš„æ¦‚ç‡ï¼Œè°ƒå¤§è¯¥å€¼ä¼šåˆ›å»ºæ›´å¤šæ›´å¤šå±‚çº§çš„ç´¢å¼•
     const double kSkListP = 0.25;
 
     struct SkListNode {
@@ -276,7 +276,7 @@ namespace skiplist {
       double score;
       SkListNode *backward;
       struct SkListLevel {
-        int span = 0;  // ÓëÉÏÒ»¸öË÷Òı½ÚµãÖ®¼äµÄÁ´±í½Úµã¸öÊı£¬°üº¬±¾½Úµã
+        int span = 0;  // ä¸ä¸Šä¸€ä¸ªç´¢å¼•èŠ‚ç‚¹ä¹‹é—´çš„é“¾è¡¨èŠ‚ç‚¹ä¸ªæ•°ï¼ŒåŒ…å«æœ¬èŠ‚ç‚¹
         SkListNode *forward = nullptr;
       };
       std::vector<SkListLevel> levels;
@@ -302,17 +302,17 @@ namespace skiplist {
       return it != dict_.end() ? it->second : nullptr;
     }
 
-    // ²åÈëmember
+    // æ’å…¥member
     void skListInsert(SkListNode *node)
     {
       int new_level = node->levels.size();
       double score = node->score;
 
-      // È·¶¨Ã¿Ò»²ãµÄ²åÈëÎ»ÖÃµÄÇ°Çı½Úµã£¬¼°ÆäÓëheaderÖ®¼äµÄspan
+      // ç¡®å®šæ¯ä¸€å±‚çš„æ’å…¥ä½ç½®çš„å‰é©±èŠ‚ç‚¹ï¼ŒåŠå…¶ä¸headerä¹‹é—´çš„span
       std::vector<SkListNode*> path_nodes(level_);
       std::vector<int> spans(level_);
       SkListNode *it = header_;
-      int span = 0;  // ÓëheaderÖ®¼äµÄspan
+      int span = 0;  // ä¸headerä¹‹é—´çš„span
       for (int i = level_ - 1; i >= 0; --i) {
         while (true) {
           auto *next = it->levels[i].forward;
@@ -326,28 +326,28 @@ namespace skiplist {
         }
       }
 
-      // ÑØ·ÃÎÊÂ·¾¶£¬´ÓÏÂÏòÉÏ¸üĞÂ¸÷²ãË÷Òı
+      // æ²¿è®¿é—®è·¯å¾„ï¼Œä»ä¸‹å‘ä¸Šæ›´æ–°å„å±‚ç´¢å¼•
       for (int i = 0; i < level_; ++i) {
         it = path_nodes[i];
-        if (i < new_level) {  // ĞÂÔöÁ´±í/Ë÷Òı½Úµã£¬¸üĞÂºóĞøË÷ÒıµÄspan
+        if (i < new_level) {  // æ–°å¢é“¾è¡¨/ç´¢å¼•èŠ‚ç‚¹ï¼Œæ›´æ–°åç»­ç´¢å¼•çš„span
           node->levels[i].forward = it->levels[i].forward;
           it->levels[i].forward = node;
-          if (i == 0) {  // Á´±í²ã
+          if (i == 0) {  // é“¾è¡¨å±‚
             node->backward = it;
             node->levels[i].forward->backward = node;
             node->levels[i].span = 1;
           }
-          else {  // Ë÷Òı²ã
+          else {  // ç´¢å¼•å±‚
             node->levels[i].span = spans[0] + 1 - spans[i];
             node->levels[i].forward->levels[i].span -= (node->levels[i].span - 1);
           }
         }
-        else {  // Ã»ÓĞĞÂµÄË÷Òı²åÈë£¬½ö¸üĞÂºóĞøË÷ÒıµÄspan
+        else {  // æ²¡æœ‰æ–°çš„ç´¢å¼•æ’å…¥ï¼Œä»…æ›´æ–°åç»­ç´¢å¼•çš„span
           it->levels[i].forward->levels[i].span += 1;
         }
       }
 
-      // ¸üĞÂĞÂÔöµÄË÷Òı²ã
+      // æ›´æ–°æ–°å¢çš„ç´¢å¼•å±‚
       for (int i = level_; i < new_level; ++i) {
         header_->levels[i].forward = node;
         node->levels[i].forward = tail_;
@@ -355,27 +355,27 @@ namespace skiplist {
         tail_->levels[i].span = card() - node->levels[i].span;
       }
 
-      // ¸üĞÂ²ã¼¶
+      // æ›´æ–°å±‚çº§
       if (new_level > level_)
         level_ = new_level;
     }
 
-    // É¾³ı½Úµã
+    // åˆ é™¤èŠ‚ç‚¹
     void skListRem(SkListNode *node)
     {
       SkListNode *it = header_;
       for (int i = level_ - 1; i >= 0; --i) {
         do {
           auto *next = it->levels[i].forward;
-          if (next == tail_ || node->score < next->score) {  // tailÊÇÃ¿Ò»²ãµÄ×îºóÒ»¸ö½Úµã
-            next->levels[i].span -= 1;    // É¾³ıµÄ½ÚµãÔÚÁ½¸öË÷Òı½ÚµãÖ®¼ä£¬ĞŞ¸Äspan
+          if (next == tail_ || node->score < next->score) {  // tailæ˜¯æ¯ä¸€å±‚çš„æœ€åä¸€ä¸ªèŠ‚ç‚¹
+            next->levels[i].span -= 1;    // åˆ é™¤çš„èŠ‚ç‚¹åœ¨ä¸¤ä¸ªç´¢å¼•èŠ‚ç‚¹ä¹‹é—´ï¼Œä¿®æ”¹span
             break;
           }
           if (node->score == next->score && node->key == next->key) {
             it->levels[i].forward = next->levels[i].forward;
-            if (i == 0)  // Á´±í²ã
+            if (i == 0)  // é“¾è¡¨å±‚
               it->levels[i].forward->backward = it;
-            else  // Ë÷Òı²ã
+            else  // ç´¢å¼•å±‚
               it->levels[i].forward->levels[i].span += node->levels[i].span - 1;
             break;
           }
@@ -384,7 +384,7 @@ namespace skiplist {
       }
     }
 
-    // ±éÀú³É¼¨ÔÚ[min,max]Ö®¼äµÄ½Úµã£¬»Øµ÷º¯Êı·µ»ØÖµ<0Ê±ÖÕÖ¹
+    // éå†æˆç»©åœ¨[min,max]ä¹‹é—´çš„èŠ‚ç‚¹ï¼Œå›è°ƒå‡½æ•°è¿”å›å€¼<0æ—¶ç»ˆæ­¢
     typedef std::function<int(SkListNode *node)> RangeByScoreVisitCb;
     void skListVisitRangeByScore(const RangeByScoreVisitCb &cb, double min, double max)
     {
@@ -392,13 +392,13 @@ namespace skiplist {
       for (int i = level_ - 1; i >= 0; --i) {
         while (true) {
           auto *next = it->levels[i].forward;
-          if (next == tail_ || next->score >= min)  // scoreÔÊĞíÓĞÖØ¸´Öµ£¬±ÜÃâÒÅÂ©
+          if (next == tail_ || next->score >= min)  // scoreå…è®¸æœ‰é‡å¤å€¼ï¼Œé¿å…é—æ¼
             break;
           it = next;
         }
       }
 
-      if (it == header_)  // minÎª-DBF_MAX£¬»òÓĞĞò¼¯Îª¿ÕÊ±, itÖ¸Ïòheader
+      if (it == header_)  // minä¸º-DBF_MAXï¼Œæˆ–æœ‰åºé›†ä¸ºç©ºæ—¶, itæŒ‡å‘header
         header_ = header_->levels[0].forward;
 
       while (it->score < min && it != tail_) {
@@ -406,14 +406,14 @@ namespace skiplist {
       }
 
       while (it->score <= max && it != tail_) {
-        auto *next = it->levels[0].forward;  // Ö§³Ö±ß±éÀú±ßÉ¾³ı
+        auto *next = it->levels[0].forward;  // æ”¯æŒè¾¹éå†è¾¹åˆ é™¤
         if (cb(it) < 0)
           break;
         it = next;
       }
     }
 
-    // ±éÀúÅÅÃûÔÚ[start,stop]Ö®¼äµÄ½Úµã£¬»Øµ÷º¯Êı·µ»ØÖµ<0Ê±ÖÕÖ¹
+    // éå†æ’ååœ¨[start,stop]ä¹‹é—´çš„èŠ‚ç‚¹ï¼Œå›è°ƒå‡½æ•°è¿”å›å€¼<0æ—¶ç»ˆæ­¢
     typedef std::function<int(SkListNode *node, int range)> RangeVisitCb;
     std::vector<Member> skListVisitRange(const RangeVisitCb &cb, int start, int stop)
     {
@@ -426,7 +426,7 @@ namespace skiplist {
         return {};
 
       SkListNode *it = header_;
-      int range = -1;  // ½ØÖ¹µ±Ç°ÔªËØitµÄÅÅÃû£¬´Ó0¿ªÊ¼£¬-1ÎªheaderÕ¼Î»
+      int range = -1;  // æˆªæ­¢å½“å‰å…ƒç´ itçš„æ’åï¼Œä»0å¼€å§‹ï¼Œ-1ä¸ºheaderå ä½
       for (int i = level_ - 1; i >= 0; --i) {
         while (true) {
           auto *next = it->levels[i].forward;
@@ -437,12 +437,12 @@ namespace skiplist {
             break;
           it = next;
           range = next_range;
-          if (next_range == start)  // ÅÅÃû²»»áÖØ¸´£¬²éÕÒ½áÊø
+          if (next_range == start)  // æ’åä¸ä¼šé‡å¤ï¼ŒæŸ¥æ‰¾ç»“æŸ
             goto lable_found;
         }
       }
 
-      if (it == header_)  // ÓĞĞò¼¯Îª¿ÕÊ±£¬itÖ¸Ïòheader_
+      if (it == header_)  // æœ‰åºé›†ä¸ºç©ºæ—¶ï¼ŒitæŒ‡å‘header_
         header_ = header_->levels[0].forward;
 
       while (range < start && it != tail_) {
@@ -453,7 +453,7 @@ namespace skiplist {
     lable_found:
       std::vector<Member> members;
       while (range <= stop && it != tail_) {
-        auto *next = it->levels[0].forward;  // Ö§³Ö±ß±éÀú±ßÉ¾³ı
+        auto *next = it->levels[0].forward;  // æ”¯æŒè¾¹éå†è¾¹åˆ é™¤
         if (cb(it, range) < 0)
           break;
         ++range;

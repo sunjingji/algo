@@ -7,58 +7,58 @@
 
 /*
  * ----------------------------------------------------
- * ��ģʽ�ַ���ƥ��
+ * 单模式字符串匹配
 
- * ������ƥ���㷨BF��ʼ��������ַ���ƥ��Ч�ʺͼӿ컬���ٶ�������ͬ���Ż����Ӷ������������㷨�� 
- * RK�㷨-ʹ�ù�ϣ�㷨����ַ���ƥ��Ч�ʣ���ϣ�㷨��ԭ���ǰ��ַ���ת����26����������Ȼ��ʹ�ñȽ������� 
+ * 从朴素匹配算法BF开始，在提高字符串匹配效率和加快滑动速度上做不同的优化，从而衍生出各种算法。 
+ * RK算法-使用哈希算法提高字符串匹配效率，哈希算法的原理是把字符串转换成26进制整数，然后使用比较整数； 
  * 
- * BM�㷨��KMP�㷨�ĺ���˼�붼�ǣ�Ѱ�ҹ��ɣ���������ƥ����ַ�ʱ����ǰ���ƶ���λ��
- * BM�㷨-����ƥ�䣬���ַ����ú�׺��Ϊ��߼���Ч�ʣ���ģʽ��Ԥ����������bc���飬suffix���飬prefix���飻 
- * KMP�㷨-����ƥ�䣬��ǰ׺��Ϊ��߼���Ч�ʣ���ģʽ��Ԥ����������next���飻
+ * BM算法和KMP算法的核心思想都是，寻找规律，在遇到不匹配的字符时，向前多移动几位。
+ * BM算法-反向匹配，坏字符，好后缀；为提高计算效率，对模式串预处理，生成bc数组，suffix数组，prefix数组； 
+ * KMP算法-正向匹配，好前缀；为提高计算效率，对模式串预处理，生成next数组；
  *
- * ���ó�����
- * 1)С��ģ�ַ���ƥ�䣬BF��O(m*n)��
- * 2)���ģ/�������ַ���ƥ�䣬BM��O(m+n)��
+ * 适用场景：
+ * 1)小规模字符串匹配，BF，O(m*n)；
+ * 2)大规模/高性能字符串匹配，BM，O(m+n)；
  *
- * ���ַ���ƥ���㷨������ѧ���ܶ��������ͱ�̵ļ��ɣ�
- * 1)RK�㷨��ʹ�ù������ںͲ���Ż���ϣ������̣�
- * 2)BM�㷨��KMP�㷨��ʹ��Ԥ���������ٱȽϴ�����
- * 3)BM�㷨���Ѻú�׺����������������⣬�ȼ�Ϊ��ģʽ�����Ӵ���ģʽ���Ĺ�����׺�Ӵ����⣻
- * 4)KMP�㷨��next����ļ�����̣�ʹ��f(i-1)�Ƶ�f(i)���������γ���׺�ִ��ȼ�Ϊ���γ�ǰ׺�ִ����⣻
- * 5)����˼·������һ���������Ҫ�����Ŵ���0,1�����������������������Ƶ���
- * 6)�ڴ���ʵ��ϸ���ϣ���ȷ�����ĺ��壬�ϲ��Զ�������������жϣ�
- *
- * ----------------------------------------------------
- * Trie �ֵ���
- * Trie���ı��ʣ����������ַ���֮��Ĺ���ǰ׺�����ظ���ǰ׺�ϲ���һ��
- * Trie�������ó��ϣ�
- *   - �ַ������ַ�������̫��ǰ׺�غϱȽ϶࣬�����ǳ��˷ѿռ䣻
- *   - �ʺ�ǰ׺ƥ�䣬�����þ�ȷ���ң�
- * Ӧ�ð�����
- *   - �����ַ�����ʾ
- *   - �༭���Զ�����
- *   - ·�ɱ�ƥ��
- *   - ��Ʊ�����Զ���ʾ
- * ���⣺
- *   - ���ڸ��Ӹ��ӵ�������˵���ʿ��е������ָ���ι�����Trie���أ�
- *   - ����ʿ����кܶ�ؼ��ʣ���������ʾ��ʱ���û�����ؼ��ʣ���Ϊǰ׺��Trie���п���ƥ��Ĺؼ���Ҳ�кܶ࣬���ѡ��չʾ��Щ�����أ�
- *   - ��Google�������������棬�û�����ƴд���������£�Google���ǿ���ʹ����ȷ��ƴд�����ؼ�����ʾ�����������ô�������أ�
+ * 从字符串匹配算法，可以学到很多分析问题和编程的技巧，
+ * 1)RK算法，使用滚动窗口和查表优化哈希计算过程；
+ * 2)BM算法和KMP算法，使用预处理，减少比较次数；
+ * 3)BM算法，把好后缀规则的两个核心问题，等价为求模式串的子串和模式串的公共后缀子串问题；
+ * 4)KMP算法，next数组的计算过程，使用f(i-1)推导f(i)，并把求解次长后缀字串等价为求解次长前缀字串问题；
+ * 5)厘清思路，推理一般情况，不要总想着带入0,1，。。。常量，在脑子里推导；
+ * 6)在代码实现细节上：明确变量的含义，合并对多个结束条件的判断；
  *
  * ----------------------------------------------------
- * AC�Զ���
- * AC�Զ����ı��ʣ����������ַ���֮��Ĺ���ǰ׺����������ƥ����ַ�ʱ����ת����һ���ƥ���λ�ã��ӿ��ִ�ǰ���ٶȡ�
- * AC�Զ���ʵ���Ͼ�����Trie��֮�ϣ���������KMP��next���飬ֻ�����˴���ʧ��ָ����ˡ�
- * ʧ��ָ��ļ�����һ�����ƹ��̣���Trie����������� 
+ * Trie 字典树
+ * Trie树的本质，就是利用字符串之间的公共前缀，将重复的前缀合并在一起。
+ * Trie树的适用场合：
+ *   - 字符串的字符集不能太大，前缀重合比较多，否则会非常浪费空间；
+ *   - 适合前缀匹配，不适用精确查找；
+ * 应用案例：
+ *   - 搜索字符串提示
+ *   - 编辑器自动补齐
+ *   - 路由表匹配
+ *   - 股票代码自动提示
+ * 问题：
+ *   - 对于更加复杂的中文来说，词库中的数据又该如何构建成Trie树呢？
+ *   - 如果词库中有很多关键词，在搜索提示的时候，用户输入关键词，作为前缀在Trie树中可以匹配的关键词也有很多，如何选择展示哪些内容呢？
+ *   - 像Google这样的搜索引擎，用户单词拼写错误的情况下，Google还是可以使用正确的拼写来做关键词提示，这个又是怎么做到的呢？
  *
- * ���ó�����
- * 1)��ģʽƥ�䣬����������дʣ�AC��
+ * ----------------------------------------------------
+ * AC自动机
+ * AC自动机的本质，就是利用字符串之间的公共前缀，在遇到不匹配的字符时，跳转到下一个最长匹配的位置，加快字串前进速度。
+ * AC自动机实际上就是在Trie树之上，加了类似KMP的next数组，只不过此处是失败指针罢了。
+ * 失败指针的计算是一个递推过程，对Trie树按层遍历。 
+ *
+ * 适用场景：
+ * 1)多模式匹配，例如过滤敏感词，AC；
  */
 
 namespace bm {
-  // �ַ�����С
+  // 字符集大小
   static const int SIZE = 256;
 
-  // b��ʾģʽ����m��ʾ���ȣ�bc���������������
+  // b表示模式串，m表示长度，bc数组事先申请好了
   void generateBC(const char b[], int m, int bc[])
   {
     for (int i = 0; i < SIZE; ++i) {
@@ -69,7 +69,7 @@ namespace bm {
     }
   }
 
-  // b��ʾģʽ����m��ʾ���ȣ�suffix��prefix���������������
+  // b表示模式串，m表示长度，suffix，prefix数组事先申请好了
   void generateGS(const char b[], int m, int suffix[], bool prefix[])
   {
     for (int i = 0; i < m; ++i) {
@@ -78,52 +78,52 @@ namespace bm {
     }
     for (int i = 0; i < m - 1; ++i) {  // b[0,i]
       int j = i;
-      int k = 0; // ������׺����
+      int k = 0; // 公共后缀长度
       while (j >= 0 && b[j] == b[m - 1 - k]) {
-        suffix[++k] = j--; // j��ʾ������׺�ִ���b[0,i]�е���ʼ�±�
+        suffix[++k] = j--; // j表示公共后缀字串在b[0,i]中的起始下标
       }
       if (j == -1) {
-        prefix[k] = true;  // ������׺�ִ�Ҳ��ģʽ����ǰ׺�Ӵ�
+        prefix[k] = true;  // 公共后缀字串也是模式串的前缀子串
       }
     }
   }
 
-  // j��ʾ���ַ���Ӧ��ģʽ���е��ַ��±�; m��ʾģʽ������
+  // j表示坏字符对应的模式串中的字符下标; m表示模式串长度
   int moveByGS(int j, int m, int suffix[], bool prefix[])
   {
-    int k = m - j - 1;  // �ú�׺�ĳ���
+    int k = m - j - 1;  // 好后缀的长度
     if (suffix[k] != -1)
       return j - suffix[k] + 1;
-    for (int r = j + 2; r <= m - 1; ++r) {  // ����ƥ��
+    for (int r = j + 2; r <= m - 1; ++r) {  // 部分匹配
       if (prefix[m - r] == true)
         return r;
     }
-    return m;  // �޷�ƥ��
+    return m;  // 无法匹配
   }
 
-  // a,b��ʾ������ģʽ����n,m��ʾ������ģʽ���ĳ���
+  // a,b表示主串和模式串；n,m表示主串和模式串的长度
   int bm(const char a[], int n, const char b[], int m)
   {
-    int bc[SIZE];  // ��¼ģʽ��ÿ���ַ������ֵ�λ��
+    int bc[SIZE];  // 记录模式串每个字符最后出现的位置
     generateBC(b, m, bc);
     std::unique_ptr<int[]> suffix(new int[m]);
     std::unique_ptr<bool[]> prefix(new bool[m]);
     generateGS(b, m, suffix.get(), prefix.get());
 
-    int i = 0;  // i��ʶ������ģʽ��ƥ��ĵ�һ���ַ�
+    int i = 0;  // i标识主串与模式串匹配的第一个字符
     while (i <= n - m) {
       int j;
-      for (j = m - 1; j >= 0; --j) {  // ģʽ���غ���ǰƥ��
-        if (a[i + j] != b[j])  // ���ַ���Ӧģʽ���е��±�Ϊj
+      for (j = m - 1; j >= 0; --j) {  // 模式串重后往前匹配
+        if (a[i + j] != b[j])  // 坏字符对应模式串中的下标为j
           break;
       }
-      if (j < 0) {  // ƥ��ɹ�������������ģʽ����һ��ƥ����ַ����±�
+      if (j < 0) {  // 匹配成功，返回主串与模式串第一个匹配的字符的下标
         return i;
       }
-      int x = j - bc[a[i + j]];  // ���ַ�������ǰ�ƶ��Ĳ������п��ܳ��������Ƶ����
+      int x = j - bc[a[i + j]];  // 坏字符规则：向前移动的步数，有可能出现往回移的情况
       int y = 0;
-      if (j < m - 1) {  // ����кú�׺�Ļ�
-        y = moveByGS(j, m, suffix.get(), prefix.get());  // �ú�׺������ǰ�ƶ��Ĳ����� >0
+      if (j < m - 1) {  // 如果有好后缀的话
+        y = moveByGS(j, m, suffix.get(), prefix.get());  // 好后缀规则向前移动的步数， >0
       }
       i += std::max(x, y);
     }
@@ -146,13 +146,13 @@ namespace kmp {
   void generateNext(const char b[], int m, int next[])
   {
     next[0] = -1;
-    int k = -1;  // ���ƥ���׺�Ӵ��Ľ�β�ַ��±�
+    int k = -1;  // 最长可匹配后缀子串的结尾字符下标
     for (int i = 1; i < m; ++i)
     {
       while (k != -1 && b[k+1] != b[i]) {
         k = next[k];
       }
-      if (b[k + 1] == b[i]) {  // �����˳�������k==-1��b[k+1]==b[i]
+      if (b[k + 1] == b[i]) {  // 涵盖退出条件：k==-1和b[k+1]==b[i]
         ++k;
       }
       next[i] = k;
@@ -163,13 +163,13 @@ namespace kmp {
   {
     std::unique_ptr<int[]> next(new int[m]);
     generateNext(b, m, next.get());  
-    int j = 0;  // j��ʾģʽ���ĵ�ǰƥ���±�
-    for(int i=0; i<n; ++i) {  // i��ʾ�����ĵ�ǰƥ���±�
+    int j = 0;  // j表示模式串的当前匹配下标
+    for(int i=0; i<n; ++i) {  // i表示主串的当前匹配下标
       while (j > 0 && a[i] != b[j]) {
         j = next[j - 1] + 1;
       }
-      if (a[i] == b[j]) {  // �����˳�������j==0 �� a[i]==b[j]
-        ++j;  // ��ǰ�ƶ�j
+      if (a[i] == b[j]) {  // 涵盖退出条件：j==0 和 a[i]==b[j]
+        ++j;  // 向前移动j
       }
       if (j == m) {
         return i - m + 1;
@@ -190,10 +190,10 @@ namespace kmp {
 
 
 namespace trie {
-  // �ַ�����С
+  // 字符集大小
   static const int SIZE = 26;
 
-  // ģʽ����󳤶�
+  // 模式串最大长度
   static const int PATTERN_MAX_LENGH = 64;
 
   struct TrieNode {
@@ -210,10 +210,10 @@ namespace trie {
   };
 
   struct Trie {    
-    TrieNode *root = new TrieNode('/');  // �洢��������ַ�
-    std::map<TrieNode*, std::string> prefix;  // ģʽ���б����������
+    TrieNode *root = new TrieNode('/');  // 存储无意义的字符
+    std::map<TrieNode*, std::string> prefix;  // 模式串列表，方便输出
 
-    // ��Trie���в���һ���ַ���
+    // 往Trie树中插入一个字符串
     void insert(const char *s)
     {    
       if (!s) return;
@@ -231,7 +231,7 @@ namespace trie {
       }
     }
 
-    // ����ǰ׺����ƥ����
+    // 根据前缀查找匹配项
     std::vector<std::string> find(const char *s)
     {
       std::vector<std::string> items;      
@@ -245,7 +245,7 @@ namespace trie {
         if (p->is_ending)
           items.push_back(prefix[p]);
       }
-      if (p) {  // �������
+      if (p) {  // 按层遍历
         std::queue<TrieNode*> queue;
         queue.push(p);
         while (!queue.empty()) {
@@ -290,13 +290,13 @@ namespace trie {
 
 
 namespace ac {
-  // �ַ�����С
+  // 字符集大小
   static const int SIZE = 26;
 
   struct AcNode {
     char data;
     bool is_ending;
-    int  length;  // ��is_ending=trueʱ����¼ģʽ���ĳ���
+    int  length;  // 当is_ending=true时，记录模式串的长度
     AcNode* children[SIZE];
     AcNode* fail;
 
@@ -309,9 +309,9 @@ namespace ac {
   };
 
   struct AcTrie {
-    AcNode *root = new AcNode('/');  // �洢��������ַ�
+    AcNode *root = new AcNode('/');  // 存储无意义的字符
 
-    // ��Trie���в���һ���ַ���
+    // 往Trie树中插入一个字符串
     void insert(const char *s)
     {
       if (!s) return;
@@ -329,7 +329,7 @@ namespace ac {
       }
     }
 
-    // ����ʧ��ָ��
+    // 计算失败指针
     void buildFailPointer()
     {
       std::queue<AcNode*> queue;
@@ -341,7 +341,7 @@ namespace ac {
           auto *pc = p->children[i];
           if (pc == nullptr) continue;
           if (p == root) {
-            pc->fail = root;  // ���нڵ��failָ��û�п�����root�ڵ��ָ���ʾָ���Լ�
+            pc->fail = root;  // 所有节点的fail指针没有空悬，root节点空指针表示指向自己
           }
           else {
             auto *q = p->fail;
@@ -361,7 +361,7 @@ namespace ac {
       }
     }
 
-    // ƥ��ģʽ��
+    // 匹配模式串
     struct Item { int idx;  int len; };
     std::vector<Item> match(const char *s)
     {
@@ -370,19 +370,19 @@ namespace ac {
         return items;
       }
       int n = strlen(s);
-      AcNode* p = root;  // p��ʾ�Ѿ�ƥ��Ľڵ�
+      AcNode* p = root;  // p表示已经匹配的节点
       for (int i = 0; i < n; ++i) {
         char idx = s[i] - 'a';
-        if (idx < 0 || idx >= SIZE) {  // ������Ч�ַ�
+        if (idx < 0 || idx >= SIZE) {  // 过滤无效字符
           p = root;
           continue;
         }
         while (p->children[idx] == nullptr && p != root)
           p = p->fail;
         p = p->children[idx];
-        if (p == nullptr) p = root;  // ���û��ƥ��ģ���root��ͷ��ʼƥ��
+        if (p == nullptr) p = root;  // 如果没有匹配的，从root从头开始匹配
         AcNode *q = p;
-        while (q != root) {  // �ҳ�ƥ���ģʽ��
+        while (q != root) {  // 找出匹配的模式串
           if (q->is_ending)
             items.push_back({ i - q->length + 1, q->length });
           q = q->fail;

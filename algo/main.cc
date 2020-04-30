@@ -10,41 +10,52 @@ void swap(T &a, T &b) {
   }
 }
 
-// Ëã·¨Ë¼Ïë
+//--------------------------------------------------------------
+// ç®—æ³•æ€æƒ³
 #include "algorithm.h"
 
-// µİ¹éËã·¨
+// é€’å½’ç®—æ³•
 #include "recursion.h"
 
-// ¶¯Ì¬¹æ»®
+// åŠ¨æ€è§„åˆ’
 #include "dynamic_planning.h"
 
-// ÏßĞÔÊı¾İ½á¹¹
+// çº¿æ€§æ•°æ®ç»“æ„
 #include "array.h"
 #include "list.h"
 #include "stack.h"
 #include "queue.h"
 
-// ÅÅĞò
+// æ’åº
 #include "sort.h"
 
-// ²éÕÒ£º¶ş·Ö£¬Ìø±í£¬¹şÏ£
+// æŸ¥æ‰¾ï¼šäºŒåˆ†ï¼Œè·³è¡¨ï¼Œå“ˆå¸Œ
 #include "bsearch.h"
 #include "skiplist.h"
 #include "hash.h"
 
-// Ê÷£º¶ş²æÊ÷£¬¶àÂ·²éÕÒÊ÷£¬¶Ñ
+// æ ‘ï¼šäºŒå‰æ ‘ï¼Œå¤šè·¯æŸ¥æ‰¾æ ‘ï¼Œå †
 #include "binary_tree.h"
 #include "btree.h"
 #include "heap.h"
 
-// Í¼
+// å›¾
 #include "graph.h"
 
-// ×Ö·û´®Æ¥Åä£ºBF,RK,BM,KMP,Trie,AC
+// å­—ç¬¦ä¸²åŒ¹é…ï¼šBF,RK,BM,KMP,Trie,AC
 #include "match.h"
 
-// ¹¤¾ß¿â
+// ä½å›¾
+#include "bmap.h"
+
+// å¸¸ç”¨ç®—æ³•ï¼šå¸ƒéš†è¿‡æ»¤å™¨ï¼Œæœ´ç´ è´å¶æ–¯å®šç†
+#include "utility.h"
+
+// å¸¸ç”¨æŠ€æœ¯æ–¹æ¡ˆï¼šç´¢å¼•
+#include "solution.h"
+
+//--------------------------------------------------------------
+// å¾ªç¯é˜Ÿåˆ—
 #include "message_buffer_queue.h"
 
 int main(int argc, char **argv)

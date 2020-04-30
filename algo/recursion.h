@@ -6,12 +6,12 @@
 namespace recursion {
 
    /*
-    * ¥������
-    * ������n��̨�ף���һ�ο��Կ�1��̨�׻�2��̨�ף�����������n��̨���ж������߷���
+    * 楼梯问题
+    * 假如有n个台阶，你一次可以跨1个台阶或2个台阶，请问走完这n个台阶有多少中走法？
     */
   int stairs(int n)
   {
-    // ��һ�µݹ���������Է�ֹ�ظ�����
+    // 画一下递归树，这可以防止重复计算
     std::map<int, int> result;
 
     if (n == 1) {
@@ -34,11 +34,11 @@ namespace recursion {
   }
 
   /*
-   * ����������⣬���͵Ļ��ݵݹ�����
+   * 排列组合问题，典型的回溯递归问题
    */
   void printPermutations(int data[], int n, int k)
   {
-    // ���������һ�������⣬�͵������һ�ֽ�
+    // 处理完最低一级子问题，就到问题的一种解
     if (k == 1) {
       for (int i = 0; i < n; ++i)
         printf("%d ", data[i]);
@@ -54,17 +54,17 @@ namespace recursion {
   }
 
   /*
-   * �˻ʺ����⣬���ͻ��ݵݹ�����
+   * 八皇后问题，典型回溯递归问题
    */
-  int gQueue[8];  // 8�ʺ�ֱ����ڵ��� 
-  int gCount = 0;  // �ⷨ����
+  int gQueue[8];  // 8皇后分别所在的列 
+  int gCount = 0;  // 解法数量
 
   bool isInvalidPos(int line, int col)
   {
     for (int i = 0; i < line; ++i) {
-      if (gQueue[i] == col)  // ÿһ�����һ���ʺ�
+      if (gQueue[i] == col)  // 每一列最多一个皇后
         return false;
-      if (abs(i - line) == abs(gQueue[i] - col)) {  // ���Խ���
+      if (abs(i - line) == abs(gQueue[i] - col)) {  // 检查对角线
         return false;
       }
     }
@@ -76,8 +76,8 @@ namespace recursion {
   {
     for (int i = 0; i < 8; i++) {
       if (isInvalidPos(k, i)) {
-        gQueue[k] = i;  // ���õ�k���ʺ�
-        if (k == 7) {  // ȷ�������һ���ʺ��λ�ã�����ݷý��
+        gQueue[k] = i;  // 放置第k个皇后
+        if (k == 7) {  // 确定了最后一个皇后的位置，输出拜访结果
           ++gCount;
           printf("\n------------------%d---------------\n", gCount);
           for (int j = 0; j < 8; ++j) {
@@ -93,13 +93,13 @@ namespace recursion {
   }
 
   /*
-   * ȡ�����⣺��n������(ÿ�����Ų�ͬ)������ȡm��(���Ż�)���ж�����ȡ����
+   * 取球问题：在n个球中(每个球编号不同)，任意取m个(不放回)，有多少种取法。
    *
-   * �ȼ���������⣬f(n,m) = (n*m)/2
+   * 等价于组合问题，f(n,m) = (n*m)/2
    *
-   * ����n��������һ��������һ��ȡ��Ҫô����������Ҫô���������������ⱻ�ֽ�Ϊ������ģ��С�����⣺
-   *    ����������f(n) = f(n-1,m-1)
-   *    ����������f(n-1,m)
+   * 想象n个球当中有一个幸运球，一种取法要么包含幸运球，要么不包含幸运球，问题被分解为两个规模更小的问题：
+   *    包含幸运球：f(n) = f(n-1,m-1)
+   *    不含幸运球：f(n-1,m)
    */
   int takeBall(int ball[], int n, int m)
   {

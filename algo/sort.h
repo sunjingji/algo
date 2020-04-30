@@ -4,13 +4,13 @@
 #include "stdio.h"
 
 /*
- *  ���������㷨�ļ���ά�ȣ�ʱ�临�Ӷȣ��ռ临�Ӷ�(�Ƿ�ԭ������)���ȶ���;
+ *  考察排序算法的几个维度：时间复杂度，空间复杂度(是否原地排序)，稳定性;
  */
 
 namespace sort {
 
   /*
-   * �鲢����, ���µ��ϣ��ߴ����ӷ������ٺϲ��õ��ϼ������Ľ�
+   * 归并排序, 由下到上，线处理子分区，再合并得到上级分区的解
    */
   void mergeSort(int data[], int n)
   {
@@ -49,97 +49,97 @@ namespace sort {
   }
 
   /*
-   * �����������ϵ��£��ȷ������ٴ����ӷ���
+   * 快速排序，由上到下，先分区，再处理子分区
    */
   void qSort(int data[], int low, int high)
   {
     if (high <= low)
       return;
 
-    // ѡ�����࣬�Ż�����Ϊ����ȡ��
+    // 选择中枢，优化：改为三数取中
     int mid = low + (high - low) / 2;
     int pivot = data[mid];
 
-    // ����
+    // 分区
     swap(data[mid], data[high]);
     int i = low;
     for (int j = low; j < high; ++j) {
-      if (data[j] < pivot) {  // Notes���Ҳ�������>=pivot
+      if (data[j] < pivot) {  // Notes：右侧子序列>=pivot
         swap(data[j], data[i]);
         ++i;
       }
     }
     swap(data[i], data[high]);
 
-    // �����ӷ���
+    // 排序子分区
     qSort(data, low, i);
-    qSort(data, i + 1, high);  // Notes: �����ų�data[i]����pivot������������������ظ�Ԫ�أ��������޵ݹ飻���� {5,5}
+    qSort(data, i + 1, high);  // Notes: 必须排除data[i]，即pivot；否则，如果序列中有重复元素，可能无限递归；考虑 {5,5}
   }
 
   /*
-   * �����O(n)�ڲ��ҵ�k��Ԫ��
+   * 如何在O(n)内查找第k大元素
    */
   void findLargestK(int data[], int low, int high, int k)
   {
     if (high <= low)
       return;
 
-    // ѡ�����࣬�Ż�����Ϊ����ȡ��
+    // 选择中枢，优化：改为三数取中
     int mid = low + (high - low) / 2;
     int pivot = data[mid];
 
-    // ����
+    // 分区
     swap(data[mid], data[high]);
     int i = low;
     for (int j = low; j < high; ++j) {
-      if (data[j] < pivot) {  // Notes���Ҳ�������>=pivot
+      if (data[j] < pivot) {  // Notes：右侧子序列>=pivot
         swap(data[j], data[i]);
         ++i;
       }
     }
     swap(data[i], data[high]);
 
-    // �ҵ���k��Ԫ��
+    // 找到第k大元素
     if (i + 1 == k)
       return;
 
-    // ��������
-    if (i + 1 > k)  // ��k��Ԫ����������
+    // 继续查找
+    if (i + 1 > k)  // 第k大元素在左半分区
       findLargestK(data, low, i - 1, k);
-    else  // ��k��Ԫ�����Ұ����
+    else  // 第k大元素在右半分区
       findLargestK(data, i + 1, high, k - i - 1);
   }
 
   /*
-   * Ͱ����
+   * 桶排序
    *
-   * ���Ҫ�����Ԫ����n���������Ǿ��ȵû��ֵ�m��Ͱ�У���ÿ��Ͱ�ڵ�k(n/m)��Ԫ�ؽ�������Ȼ�����α���m��Ͱ���͵õ������������ݣ�
+   * 如果要排序的元素有n个，把它们均匀得划分到m个桶中，对每个桶内的k(n/m)个元素进行排序，然后依次遍历m个桶，就得到了排序后的数据；
    *
-   * Ͱ��������ó�����
-   * 1)���ȣ�����Ҫ�ܺ����׻��ֳ�m��Ͱ������Ͱ��Ͱ֮��������Ȼ�Ĵ�С��ϵ��
-   * 2)��Σ������ڸ���Ͱ֮��ķֲ��Ǿ��ȵġ�
+   * 桶排序的适用场景：
+   * 1)首先，数据要能很容易划分成m个桶，并且桶与桶之间有着天然的大小关系。
+   * 2)其次，数据在各个桶之间的分布是均匀的。
    *
-   * ʱ�临�Ӷ�O(m*klogk)=O(nlogk)����Ͱ�ĸ���m�ӽ�nʱ��logk����һ���ǳ�С�ĳ�����O(nlogk)�Ż�ӽ���O(n);
+   * 时间复杂度O(m*klogk)=O(nlogk)，当桶的个数m接近n时，logk就是一个非常小的常量，O(nlogk)才会接近于O(n);
    */
 
    /*
-    * ��������
+    * 计数排序
     *
-    * ��ÿ��Ͱ��ֻ��һ����ֵ������ʱ�����˻����˼�������
+    * 当每个桶内只有一个数值的数据时，就退化成了计数排序。
     *
-    * ������������ó�����
-    * 1)���ݷ�Χ����ĳ�����
-    * 2)ֻ������Ǹ�����(���������±�)�����ڴ���������С������������ͣ���Ҫ��ת��Ϊ�Ǹ�����������ʹ�ü�������
+    * 计数排序的适用场景：
+    * 1)数据范围不大的场景。
+    * 2)只能排序非负整数(考虑数组下标)。对于带负数，带小数点的数据类型，需要先转换为非负整数，才能使用计数排序。
     */
 
     /*
-     * ��������
+     * 基数排序
      *
-     * ʹ���ȶ������㷨�������λ�����λ�����ν�������
+     * 使用稳定排序算法，从最低位到最高位，依次进行排序。
      *
-     * ���ó�����
-     * 1)�����԰��������ݻ��ָ�������ġ�λ��������λ֮���еݽ���ϵ�����a���ݵĸ�λ��b���ݵĸ�λ��ʱ��ʣ�µ����ݾͲ��ñȽ��ˡ�
-     * 2)ÿһλ�����ݷ�Χ����̫��Ҫ����ʹ�����������㷨�������򣬷��򣬻��������������O(n)�ˡ�
+     * 适用场景：
+     * 1)当可以把排序数据划分割出独立的“位”，而且位之间有递进关系，如果a数据的高位比b数据的高位大时，剩下的数据就不用比较了。
+     * 2)每一位的数据范围不能太大，要可以使用线性排序算法进行排序，否则，基数排序就做不到O(n)了。
      */
 
   void test()

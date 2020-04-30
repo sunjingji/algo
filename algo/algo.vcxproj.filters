@@ -14,10 +14,10 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="头文件\algo">
-      <UniqueIdentifier>{f2174636-3a6c-4189-a4b0-7084ee5e3577}</UniqueIdentifier>
+      <UniqueIdentifier>{51f2a6cd-ae42-4f05-8f0f-735f9df6c944}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\util">
-      <UniqueIdentifier>{19925cd1-ac48-4ef1-acd7-77e5924f7522}</UniqueIdentifier>
+    <Filter Include="头文件\module">
+      <UniqueIdentifier>{b069f8ee-6cea-4544-81c2-086df92d51b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,16 +27,13 @@
     <ClInclude Include="array.h">
       <Filter>头文件\algo</Filter>
     </ClInclude>
-    <ClInclude Include="binary_tree.h">
-      <Filter>头文件\algo</Filter>
-    </ClInclude>
-    <ClInclude Include="bsearch.h">
+    <ClInclude Include="bmap.h">
       <Filter>头文件\algo</Filter>
     </ClInclude>
     <ClInclude Include="btree.h">
       <Filter>头文件\algo</Filter>
     </ClInclude>
-    <ClInclude Include="dynamic_planning.h">
+    <ClInclude Include="bsearch.h">
       <Filter>头文件\algo</Filter>
     </ClInclude>
     <ClInclude Include="graph.h">
@@ -45,10 +42,16 @@
     <ClInclude Include="hash.h">
       <Filter>头文件\algo</Filter>
     </ClInclude>
-    <ClInclude Include="heap.h">
+    <ClInclude Include="dynamic_planning.h">
+      <Filter>头文件\algo</Filter>
+    </ClInclude>
+    <ClInclude Include="binary_tree.h">
       <Filter>头文件\algo</Filter>
     </ClInclude>
     <ClInclude Include="list.h">
+      <Filter>头文件\algo</Filter>
+    </ClInclude>
+    <ClInclude Include="heap.h">
       <Filter>头文件\algo</Filter>
     </ClInclude>
     <ClInclude Include="match.h">
@@ -63,14 +66,20 @@
     <ClInclude Include="skiplist.h">
       <Filter>头文件\algo</Filter>
     </ClInclude>
+    <ClInclude Include="solution.h">
+      <Filter>头文件\algo</Filter>
+    </ClInclude>
     <ClInclude Include="sort.h">
       <Filter>头文件\algo</Filter>
     </ClInclude>
     <ClInclude Include="stack.h">
       <Filter>头文件\algo</Filter>
     </ClInclude>
+    <ClInclude Include="utility.h">
+      <Filter>头文件\algo</Filter>
+    </ClInclude>
     <ClInclude Include="message_buffer_queue.h">
-      <Filter>头文件\util</Filter>
+      <Filter>头文件\module</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

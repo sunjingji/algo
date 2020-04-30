@@ -6,14 +6,14 @@
 namespace stack {
 
   /**
-   * »ùÓÚÊı×éÊµÏÖµÄË³ĞòÕ»
+   * åŸºäºæ•°ç»„å®ç°çš„é¡ºåºæ ˆ
    */
   template<class T>
   class ArrayStack {
   private:
     T *array_;
-    int size_;  // Õ»µÄÈİÁ¿
-    int count_; // Õ»ÖĞÔªËØµÄ¸öÊı
+    int size_;  // æ ˆçš„å®¹é‡
+    int count_; // æ ˆä¸­å…ƒç´ çš„ä¸ªæ•°
 
   public:
     struct EmptyEx {};
@@ -58,13 +58,13 @@ namespace stack {
   };
 
   /*
-   * ±í´ïÊ½ÇóÖµ
+   * è¡¨è¾¾å¼æ±‚å€¼
    *
-   * Ê¹ÓÃÁ½¸öÕ»: ²Ù×÷ÊıÕ»£¬ÔËËã·ûÕ»
+   * ä½¿ç”¨ä¸¤ä¸ªæ ˆ: æ“ä½œæ•°æ ˆï¼Œè¿ç®—ç¬¦æ ˆ
    *
-   * ´Ó×öµ½ÓĞÉ¨Ãè±í´ïÊ½£¬Óöµ½Êı×Ö£¬¾ÍÖ±½ÓÈëÕ»£»Óöµ½ÔËËã·û£¬¾ÍÓëÕ»¶¥ÔËËã·û×ö±È½Ï;
-   * Èç¹ûĞÂÔËËã·ûµÄÓÅÏÈ¼¶¸ü¸ß£¬¾Í°ÑĞÂÔËËã·ûÈëÕ»£»
-   * Èç¹ûĞÂÔËËã·ûµÄÓÅÏÈ¼¶Ğ¡ÓÚµÈÓÚÕ»¶¥ÔËËã·û£¬Ôòµ¯³öÏàÓ¦µÄ²Ù×÷ÊıºÍÔËËã·û½øĞĞ¼ÆËã£¬¼ÆËã½á¹ûÔÙÈëÕ»£¬¼ÌĞø±È½Ï£»
+   * ä»åšåˆ°æœ‰æ‰«æè¡¨è¾¾å¼ï¼Œé‡åˆ°æ•°å­—ï¼Œå°±ç›´æ¥å…¥æ ˆï¼›é‡åˆ°è¿ç®—ç¬¦ï¼Œå°±ä¸æ ˆé¡¶è¿ç®—ç¬¦åšæ¯”è¾ƒ;
+   * å¦‚æœæ–°è¿ç®—ç¬¦çš„ä¼˜å…ˆçº§æ›´é«˜ï¼Œå°±æŠŠæ–°è¿ç®—ç¬¦å…¥æ ˆï¼›
+   * å¦‚æœæ–°è¿ç®—ç¬¦çš„ä¼˜å…ˆçº§å°äºç­‰äºæ ˆé¡¶è¿ç®—ç¬¦ï¼Œåˆ™å¼¹å‡ºç›¸åº”çš„æ“ä½œæ•°å’Œè¿ç®—ç¬¦è¿›è¡Œè®¡ç®—ï¼Œè®¡ç®—ç»“æœå†å…¥æ ˆï¼Œç»§ç»­æ¯”è¾ƒï¼›
    */
   struct ExpressionEx {};
 
@@ -104,7 +104,7 @@ namespace stack {
     char c;
     while ((c = *s))
     {
-      if (c >= '0' && c <= '9') {  // ²Ù×÷Êı
+      if (c >= '0' && c <= '9') {  // æ“ä½œæ•°
         int data = c - '0';
         int i;
         for (i = 1; i < sizeof(data); ++i) {
@@ -117,13 +117,13 @@ namespace stack {
           }
           break;
         }
-        if (i == sizeof(data)) {  // ²Ù×÷ÊıÌ«³¤
+        if (i == sizeof(data)) {  // æ“ä½œæ•°å¤ªé•¿
           throw ExpressionEx();
         }
         dataStack.push(data);
         continue;
       }
-      else if (c == '+' || c == '-' || c == '*' || c == '/') {  // ²Ù×÷·û
+      else if (c == '+' || c == '-' || c == '*' || c == '/') {  // æ“ä½œç¬¦
         while (true) {
           if (opStack.empty() || opStack.top() == '(') {
             opStack.push(c);
@@ -141,10 +141,10 @@ namespace stack {
           }
         }
       }
-      else if (c == '(') {  // ×óÀ¨ºÅ
+      else if (c == '(') {  // å·¦æ‹¬å·
         opStack.push(c);
       }
-      else if (c == ')') {  // ÓÒÀ¨ºÅ
+      else if (c == ')') {  // å³æ‹¬å·
         while (!opStack.empty()) {
           if (opStack.top() == '(') {
             opStack.pop();
@@ -156,13 +156,13 @@ namespace stack {
           dataStack.push(z);
         }
       }
-      else if (c == ' ') {  // ¿Õ¸ñ
+      else if (c == ' ') {  // ç©ºæ ¼
       }
       else {
         throw std::runtime_error("invalid expression");
       }
 
-      // ÒÆ¶¯Ö¸Õë
+      // ç§»åŠ¨æŒ‡é’ˆ
       ++s;
     }
 
@@ -181,7 +181,7 @@ namespace stack {
   }
 
   /*
-   * Ä£Äâä¯ÀÀÆ÷Ç°½øºóÍË
+   * æ¨¡æ‹Ÿæµè§ˆå™¨å‰è¿›åé€€
    */
   class Explorer {
   private:
@@ -195,10 +195,10 @@ namespace stack {
     {}
 
     void visitNewPage(int page) {
-      if (!backward_.empty()) {  // ´¦ÔÚ»ØÍË³¡¾°, ±£Áôµ±Ç°Ò³Ãæ
+      if (!backward_.empty()) {  // å¤„åœ¨å›é€€åœºæ™¯, ä¿ç•™å½“å‰é¡µé¢
         forward_.push(current_page_);
       }
-      backward_.clean();  // Çå¿Õ»ØÍËÒ³£¬±£³ÖÏßĞÔ·ÃÎÊÀúÊ·
+      backward_.clean();  // æ¸…ç©ºå›é€€é¡µï¼Œä¿æŒçº¿æ€§è®¿é—®å†å²
       forward_.push(page);
       current_page_ = page;
       printf("++> page_%02d\n", page);
@@ -209,7 +209,7 @@ namespace stack {
         return;
 
       int page = backward_.pop();
-      if (page == current_page_) { // Ìø¹ıµ±Ç°Ò³
+      if (page == current_page_) { // è·³è¿‡å½“å‰é¡µ
         forward_.push(page);
         page = backward_.pop();
       }
@@ -221,12 +221,12 @@ namespace stack {
 
     void back() {
       int n = forward_.count();
-      if (n == 0 ||  // ·ÃÎÊÀúÊ·Îª¿Õ
-        (n == 1 && backward_.empty()))  // ·ÃÎÊÀúÊ·Ö»ÓĞÒ»¸öÒ³Ãæ    
+      if (n == 0 ||  // è®¿é—®å†å²ä¸ºç©º
+        (n == 1 && backward_.empty()))  // è®¿é—®å†å²åªæœ‰ä¸€ä¸ªé¡µé¢    
         return;
 
       int page = forward_.pop();
-      if (page == current_page_) { // Ìø¹ıµ±Ç°Ò³
+      if (page == current_page_) { // è·³è¿‡å½“å‰é¡µ
         backward_.push(page);
         page = forward_.pop();
       }

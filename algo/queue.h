@@ -10,7 +10,7 @@
 namespace queue {
 
   /*
-   * Ò»Ğ´¶à¶Á Ñ­»·¶ÓÁĞ
+   * ä¸€å†™å¤šè¯» å¾ªç¯é˜Ÿåˆ—
    */
   class SwMrQueue {
   public:
@@ -25,7 +25,7 @@ namespace queue {
       size_t tail = tail_.load(std::memory_order_relaxed);
       size_t head = head_.load(std::memory_order_relaxed);
 
-      // ÁôÒ»¸öÌõÄ¿²»´æ´¢Êı¾İ£¬ÓÃÀ´Çø¸ôheadºÍtail
+      // ç•™ä¸€ä¸ªæ¡ç›®ä¸å­˜å‚¨æ•°æ®ï¼Œç”¨æ¥åŒºéš”headå’Œtail
       if ((tail + 1) % capacity_ == head)
         return false;
 
@@ -59,7 +59,7 @@ namespace queue {
   };
 
   /*
-   * ¶àĞ´¶à¶Á Ñ­»·¶ÓÁĞ
+   * å¤šå†™å¤šè¯» å¾ªç¯é˜Ÿåˆ—
    */
   class MwMrQueue {
   public:

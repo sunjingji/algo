@@ -21,21 +21,24 @@
   <ItemGroup>
     <ClInclude Include="algorithm.h" />
     <ClInclude Include="array.h" />
+    <ClInclude Include="bmap.h" />
     <ClInclude Include="btree.h" />
     <ClInclude Include="dynamic_planning.h" />
     <ClInclude Include="graph.h" />
-    <ClInclude Include="message_buffer_queue.h" />
     <ClInclude Include="hash.h" />
     <ClInclude Include="heap.h" />
     <ClInclude Include="list.h" />
+    <ClInclude Include="message_buffer_queue.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="binary_tree.h" />
     <ClInclude Include="recursion.h" />
     <ClInclude Include="bsearch.h" />
     <ClInclude Include="skiplist.h" />
+    <ClInclude Include="solution.h" />
     <ClInclude Include="sort.h" />
     <ClInclude Include="stack.h" />
     <ClInclude Include="match.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc" />
@@ -113,7 +116,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalOptions>-D_CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 -D_CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,7 +132,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalOptions>-D_CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 -D_CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
