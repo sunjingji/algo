@@ -33,6 +33,7 @@
     <ClInclude Include="binary_tree.h" />
     <ClInclude Include="recursion.h" />
     <ClInclude Include="bsearch.h" />
+    <ClInclude Include="security.h" />
     <ClInclude Include="skiplist.h" />
     <ClInclude Include="solution.h" />
     <ClInclude Include="sort.h" />

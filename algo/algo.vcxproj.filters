@@ -81,6 +81,9 @@
     <ClInclude Include="message_buffer_queue.h">
       <Filter>头文件\module</Filter>
     </ClInclude>
+    <ClInclude Include="security.h">
+      <Filter>头文件\algo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">

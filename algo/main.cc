@@ -51,6 +51,9 @@ void swap(T &a, T &b) {
 // 常用算法：布隆过滤器，朴素贝叶斯定理
 #include "utility.h"
 
+// 安全算法
+#include "security.h"
+
 // 常用技术方案：索引
 #include "solution.h"
 
@@ -84,6 +87,8 @@ int main(int argc, char **argv)
 
   //package();
   //lcss("hish", "fish");
+
+  pagerank();
 
   getchar();
 }
